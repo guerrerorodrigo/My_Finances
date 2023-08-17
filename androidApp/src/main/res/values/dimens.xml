@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_size">32dp</dimen>
+    <dimen name="add_transaction_type_icon_size">24dp</dimen>
+    <dimen name="icon_container_size">40dp</dimen>
+</resources>
