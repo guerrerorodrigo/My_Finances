@@ -1,15 +1,16 @@
 [versions]
-agp-version = "8.1.0"
+agp-version = "8.1.1"
 androidx-activity-compose-version = "1.7.2"
-androidx-compose-bom-version = "2023.06.01"
+androidx-compose-bom-version = "2023.08.00"
 androidx-compose-compiler-version = "1.5.0"
-androidx-compose-material-icons-extended-version = "1.4.3"
+androidx-compose-material-icons-extended-version = "1.5.0"
 androidx-lifecycle-version = "2.6.1"
-androidx-navigation-compose-version = "2.6.0"
+androidx-navigation-compose-version = "2.7.1"
+com-google-accompanist-navigation-material-version = "0.32.0"
 dev-icerock-moko-mvvm-version = "0.16.1"
 io-insert-koin-core-version = "3.4.3"
 sqldelight-version = "1.5.5"
-org-jetbrains-kotlin-multiplatform-version = "1.8.22"
+org-jetbrains-kotlin-multiplatform-version = "1.9.0"
 org-jetbrains-kotlinx-datetime-version = "0.4.0"
 
 [libraries]
@@ -25,6 +26,7 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle-version" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle-version" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose-version" }
+com-google-accompanist-navigation-material = { module = "com.google.accompanist:accompanist-navigation-material", version.ref = "com-google-accompanist-navigation-material-version" }
 com-squareup-sqldelight-android-driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight-version" }
 com-squareup-sqldelight-coroutines-extensions = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqldelight-version" }
 com-squareup-sqldelight-gradle-plugin = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight-version" }
@@ -37,6 +39,7 @@ dev-icerock-moko-mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-comp
 io-insert-koin-android = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin-core-version" }
 io-insert-koin-core = { module = "io.insert-koin:koin-core", version.ref = "io-insert-koin-core-version" }
 org-jetbrains-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "org-jetbrains-kotlinx-datetime-version" }
+
 [plugins]
 com-android-application-plugin = { id = "com.android.application", version.ref = "agp-version" }
 com-android-library-plugin = { id = "com.android.library", version.ref = "agp-version" }
@@ -50,6 +53,7 @@ compose = [
     "androidx-lifecycle-runtime-compose",
     "androidx-compose-material-icons-extended",
     "androidx-activity-compose",
+    "com-google-accompanist-navigation-material",
 ]
 compose-tooling = [
     "androidx-compose-ui-tooling",

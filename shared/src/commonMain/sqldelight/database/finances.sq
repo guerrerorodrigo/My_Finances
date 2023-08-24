@@ -3,7 +3,12 @@ CREATE TABLE transactionEntity (
     amount REAL NOT NULL,
     createdAt INTEGER NOT NULL,
     type INTEGER NOT NULL,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    notes TEXT,
+    category TEXT NOT NULL,
+    categoryId INTEGER NOT NULL,
+    categoryGroupId INTEGER NOT NULL,
+    categoryGroup TEXT NOT NULL
 );
 
 getAllTransactions:
@@ -28,8 +33,13 @@ INTO transactionEntity(
     amount,
     createdAt,
     type,
-    name
-) VALUES (?, ?, ?, ?, ?);
+    name,
+    notes,
+    category,
+    categoryId,
+    categoryGroupId,
+    categoryGroup
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 deleteTransaction:
 DELETE FROM transactionEntity

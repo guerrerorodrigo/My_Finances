@@ -36,6 +36,11 @@ internal class SqlDelightTransactionsDataSource(database: AppDatabase) : Transac
             createdAt = Clock.System.now().toEpochMilliseconds(),
             amount = transaction.amount,
             type = transaction.type.ordinal.toLong(),
+            category = transaction.category,
+            categoryGroupId = transaction.categoryGroupId,
+            categoryId = transaction.categoryId,
+            notes = transaction.notes,
+            categoryGroup = transaction.categoryGroup,
         )
     }
 

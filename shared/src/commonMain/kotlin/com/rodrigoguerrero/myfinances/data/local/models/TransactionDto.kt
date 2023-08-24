@@ -8,6 +8,11 @@ data class TransactionDto(
     val type: TransactionType,
     val amount: Double,
     val creationDate: Long,
+    val notes: String,
+    val category: String,
+    val categoryId: Long,
+    val categoryGroupId: Long,
+    val categoryGroup: String,
 )
 
 internal fun TransactionEntity.toTransactionDto() = TransactionDto(
@@ -16,4 +21,9 @@ internal fun TransactionEntity.toTransactionDto() = TransactionDto(
     type = TransactionType.from(type),
     amount = amount,
     creationDate = createdAt,
+    category = category,
+    categoryId = categoryId,
+    categoryGroupId = categoryGroupId,
+    notes = notes.orEmpty(),
+    categoryGroup = categoryGroup,
 )

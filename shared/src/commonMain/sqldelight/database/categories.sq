@@ -1,0 +1,39 @@
+CREATE TABLE categoryEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    icon TEXT,
+    groupId INTEGER NOT NULL
+);
+
+CREATE TABLE categoryGroupEntity(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type INTEGER NOT NULL
+);
+
+getAllCategories:
+SELECT *
+FROM categoryEntity
+ORDER BY groupId DESC;
+
+getCategoryGroupsByType:
+SELECT *
+FROM categoryGroupEntity
+WHERE type = :type;
+
+insertCategoryEntity:
+INSERT OR REPLACE
+INTO categoryEntity(
+    id,
+    name,
+    icon,
+    groupId
+) VALUES (?, ?, ?, ?);
+
+insertCategoryGroupEntity:
+INSERT OR REPLACE
+INTO categoryGroupEntity(
+    id,
+    name,
+    type
+) VALUES (?, ?, ?);

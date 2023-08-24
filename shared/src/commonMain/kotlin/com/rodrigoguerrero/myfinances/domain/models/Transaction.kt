@@ -9,6 +9,8 @@ data class Transaction(
     val type: TransactionType,
     val amount: Double,
     val creationDate: Long,
+    val notes: String,
+    val category: Category,
 )
 
 internal fun TransactionDto.toDomain() = Transaction(
@@ -17,6 +19,8 @@ internal fun TransactionDto.toDomain() = Transaction(
     type = type,
     amount = amount,
     creationDate = creationDate,
+    category = toCategory(),
+    notes = notes,
 )
 
 internal fun Transaction.toDto() = TransactionDto(
@@ -25,4 +29,9 @@ internal fun Transaction.toDto() = TransactionDto(
     type = type,
     amount = amount,
     creationDate = creationDate,
+    notes = notes,
+    categoryId = category.id,
+    category = category.name,
+    categoryGroupId = category.group.id,
+    categoryGroup = category.group.name,
 )
