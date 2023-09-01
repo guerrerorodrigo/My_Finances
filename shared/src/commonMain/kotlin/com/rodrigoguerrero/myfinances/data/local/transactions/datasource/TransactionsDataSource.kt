@@ -1,7 +1,7 @@
-package com.rodrigoguerrero.myfinances.data.local.datasource
+package com.rodrigoguerrero.myfinances.data.local.transactions.datasource
 
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionDto
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionType
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionDto
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import kotlinx.coroutines.flow.Flow
 
 interface TransactionsDataSource {

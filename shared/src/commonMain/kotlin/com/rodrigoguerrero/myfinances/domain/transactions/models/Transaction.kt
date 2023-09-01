@@ -1,7 +1,9 @@
-package com.rodrigoguerrero.myfinances.domain.models
+package com.rodrigoguerrero.myfinances.domain.transactions.models
 
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionDto
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionType
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionDto
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.domain.categories.models.Category
+import com.rodrigoguerrero.myfinances.domain.categories.models.toCategory
 
 data class Transaction(
     val id: Long,

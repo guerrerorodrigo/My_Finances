@@ -1,8 +1,8 @@
-package com.rodrigoguerrero.myfinances.data.local.datasource
+package com.rodrigoguerrero.myfinances.data.local.transactions.datasource
 
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionDto
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionType
-import com.rodrigoguerrero.myfinances.data.local.models.toTransactionDto
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionDto
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.toTransactionDto
 import com.rodrigoguerrero.myfinances.database.AppDatabase
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.runtime.coroutines.asFlow

@@ -3,6 +3,7 @@
 
     <application
         android:allowBackup="false"
+        android:name=".FinancesApp"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -14,4 +15,4 @@
             </intent-filter>
         </activity>
     </application>
-</manifest> 
+</manifest>

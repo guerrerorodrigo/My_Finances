@@ -1,6 +1,5 @@
 package com.rodrigoguerrero.myfinances.android.ui.create.navigation
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,7 +8,6 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.bottomSheet
 import com.rodrigoguerrero.myfinances.android.ui.categories.components.SelectCategoryBottomSheet
 import com.rodrigoguerrero.myfinances.android.ui.categories.components.SelectIconBottomSheet
-import com.rodrigoguerrero.myfinances.android.ui.categories.models.AddCategoryGroupUiState
 import com.rodrigoguerrero.myfinances.android.ui.categories.models.AddCategoryUiState
 import com.rodrigoguerrero.myfinances.android.ui.categories.models.SelectCategoryUiState
 import com.rodrigoguerrero.myfinances.android.ui.categories.models.categoryIcons
@@ -19,7 +17,7 @@ import com.rodrigoguerrero.myfinances.android.ui.create.screens.AddCategoryGroup
 import com.rodrigoguerrero.myfinances.android.ui.create.screens.AddNewCategoryScreen
 import com.rodrigoguerrero.myfinances.android.ui.create.screens.AddTransactionScreen
 
-@OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.createTransactionNavGraph(navController: NavHostController) {
     navigation(
         route = "create-transaction",
@@ -30,7 +28,14 @@ fun NavGraphBuilder.createTransactionNavGraph(navController: NavHostController) 
                 state = AddTransactionUiState(),
                 onEvent = { event ->
                     when (event) {
-                        AddTransactionEvent.NavigateBack -> navController.popBackStack()
+                        AddTransactionEvent.NavigateBack -> {
+                            navController.navigate("main") {
+                                popUpTo("add-transaction") {
+                                    inclusive = true
+                                }
+                            }
+                        }
+
                         AddTransactionEvent.ShowCategoryPicker -> navController.navigate("category-picker")
                         else -> {}
                     }
@@ -56,11 +61,8 @@ fun NavGraphBuilder.createTransactionNavGraph(navController: NavHostController) 
         }
         composable(route = "add-new-category-group") {
             AddCategoryGroupScreen(
-                state = AddCategoryGroupUiState(),
-                onNameChanged = {},
-                onTypeSelected = {},
                 onBack = { navController.popBackStack() },
-                onSave = {}
+                onComplete = { navController.popBackStack() },
             )
         }
         bottomSheet(route = "change-icon") {

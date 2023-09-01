@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.data.local.models
+package com.rodrigoguerrero.myfinances.data.local.transactions.models
 
 enum class TransactionType {
     INCOME, EXPENSE, UNKNOWN;

@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.io.insert.koin.android)
+    implementation(libs.io.insert.koin.androidx.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.org.jetbrains.kotlinx.datetime)
 }

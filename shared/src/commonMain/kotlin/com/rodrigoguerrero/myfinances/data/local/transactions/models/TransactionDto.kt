@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.data.local.models
+package com.rodrigoguerrero.myfinances.data.local.transactions.models
 
 import database.TransactionEntity
 

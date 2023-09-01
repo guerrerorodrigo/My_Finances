@@ -8,7 +8,7 @@ androidx-lifecycle-version = "2.6.1"
 androidx-navigation-compose-version = "2.7.1"
 com-google-accompanist-navigation-material-version = "0.32.0"
 dev-icerock-moko-mvvm-version = "0.16.1"
-io-insert-koin-core-version = "3.4.3"
+io-insert-koin-core-version = "3.4.4"
 sqldelight-version = "1.5.5"
 org-jetbrains-kotlin-multiplatform-version = "1.9.0"
 org-jetbrains-kotlinx-datetime-version = "0.4.0"
@@ -37,6 +37,7 @@ dev-icerock-moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.re
 dev-icerock-moko-mvvm-flow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "dev-icerock-moko-mvvm-version" }
 dev-icerock-moko-mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "dev-icerock-moko-mvvm-version" }
 io-insert-koin-android = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin-core-version" }
+io-insert-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin-core-version" }
 io-insert-koin-core = { module = "io.insert-koin:koin-core", version.ref = "io-insert-koin-core-version" }
 org-jetbrains-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "org-jetbrains-kotlinx-datetime-version" }
 

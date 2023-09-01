@@ -1,7 +1,6 @@
-package com.rodrigoguerrero.myfinances.domain.repository
+package com.rodrigoguerrero.myfinances.domain.transactions.repository
 
-import com.rodrigoguerrero.myfinances.data.local.models.TransactionDto
-import com.rodrigoguerrero.myfinances.domain.models.Transaction
+import com.rodrigoguerrero.myfinances.domain.transactions.models.Transaction
 import kotlinx.coroutines.flow.Flow
 
 interface TransactionRepository {
