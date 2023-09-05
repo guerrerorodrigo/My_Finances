@@ -45,7 +45,20 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
                 }
             }
 
-    override suspend fun insertCategoryGroup(name: String, transactionType: TransactionType) {
+    override suspend fun addCategory(
+        name: String,
+        groupId: Int,
+        iconPosition: Int?,
+    ) {
+        queries.insertCategoryEntity(
+            id = null,
+            name = name,
+            groupId = groupId.toLong(),
+            icon = iconPosition?.toLong(),
+        )
+    }
+
+    override suspend fun addCategoryGroup(name: String, transactionType: TransactionType) {
         queries.insertCategoryGroupEntity(
             id = null,
             name = name,

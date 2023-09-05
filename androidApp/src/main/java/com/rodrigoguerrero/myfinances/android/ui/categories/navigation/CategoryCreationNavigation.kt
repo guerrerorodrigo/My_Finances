@@ -44,7 +44,6 @@ fun NavGraphBuilder.createCategoryNavGraph(navController: NavHostController) {
                         }
                     }
                 },
-                onSave = { },
                 isExpense = isExpense,
                 viewModelStoreOwner = backStackEntry,
             )

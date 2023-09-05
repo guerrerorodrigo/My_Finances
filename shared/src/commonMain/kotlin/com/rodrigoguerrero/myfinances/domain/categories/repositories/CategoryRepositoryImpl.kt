@@ -12,7 +12,7 @@ internal class CategoryRepositoryImpl(
 ) : CategoryRepository {
 
     override suspend fun addCategoryGroup(name: String, transactionType: TransactionType) {
-        dataSource.insertCategoryGroup(name, transactionType)
+        dataSource.addCategoryGroup(name, transactionType)
     }
 
     override fun getCategoryGroups(
@@ -21,4 +21,8 @@ internal class CategoryRepositoryImpl(
         dataSource
             .getAllCategoryGroups(transactionType)
             .map { groups -> groups.map { group -> group.toCategoryGroup() } }
+
+    override suspend fun addCategory(name: String, groupId: Int, iconPosition: Int?) {
+        dataSource.addCategory(name, groupId, iconPosition)
+    }
 }

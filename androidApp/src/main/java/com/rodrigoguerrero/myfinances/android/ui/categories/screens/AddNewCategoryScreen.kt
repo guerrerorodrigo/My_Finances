@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,13 +32,13 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.compose.navigation.koinNavViewModel
 import org.koin.core.parameter.parametersOf
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddNewCategoryScreen(
     isExpense: Boolean,
     onAddNewCategoryGroup: () -> Unit,
     onChangeIcon: () -> Unit,
     onBack: () -> Unit,
-    onSave: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AndroidAddCategoryViewModel = koinViewModel(
         parameters = { parametersOf(isExpense) }
@@ -43,8 +46,15 @@ fun AddNewCategoryScreen(
     viewModelStoreOwner: ViewModelStoreOwner,
     sharedViewModel: CategoryCreationViewModel = koinNavViewModel(viewModelStoreOwner = viewModelStoreOwner),
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val sharedState by sharedViewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = state.navigateBack) {
+        if (state.navigateBack) {
+            onBack()
+        }
+    }
 
     Scaffold(
         modifier = modifier,
@@ -58,7 +68,7 @@ fun AddNewCategoryScreen(
                     }
                 ),
                 onBack = onBack,
-                onSave = onSave,
+                onSave = { viewModel.onEvent(CategoryEvent.Validate) },
             )
         }
     ) { paddingValues ->
@@ -74,11 +84,20 @@ fun AddNewCategoryScreen(
                 onValueChange = { viewModel.onEvent(CategoryEvent.OnNameUpdated(it)) },
                 label = stringResource(R.string.category_name),
                 modifier = Modifier.fillMaxWidth(),
+                isError = state.isNameEmpty,
+                error = if (state.isNameEmpty) {
+                    stringResource(id = R.string.error_empty_category_name)
+                } else {
+                    ""
+                },
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onChangeIcon() },
+                    .clickable {
+                        keyboardController?.hide()
+                        onChangeIcon()
+                    },
                 horizontalArrangement = Arrangement.spacedBy(AppTheme.padding.m),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -97,6 +116,12 @@ fun AddNewCategoryScreen(
                 selected = state.selectedGroup,
                 onCategorySelected = { viewModel.onEvent(CategoryEvent.OnGroupSelected(it)) },
                 onAddNewCategoryGroup = onAddNewCategoryGroup,
+                isError = !state.isGroupSelected,
+                error = if (!state.isGroupSelected) {
+                    stringResource(id = R.string.error_empty_category_group)
+                } else {
+                    ""
+                },
             )
         }
     }

@@ -11,9 +11,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class AddCategoryViewModel(
-    categoryRepository: CategoryRepository,
+    private val categoryRepository: CategoryRepository,
     isExpense: Boolean,
     coroutineScope: CoroutineScope?,
 ) {
@@ -29,7 +30,7 @@ class AddCategoryViewModel(
             }
         ),
     ) { state, groups ->
-        state.copy(groups = groups.map { it.name })
+        state.copy(groups = groups.map { it.toUi() })
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -44,6 +45,33 @@ class AddCategoryViewModel(
             is CategoryEvent.OnNameUpdated -> _state.update { it.copy(name = event.value) }
             CategoryEvent.OnToggleTransactionType -> {
                 _state.update { it.copy(isExpense = !_state.value.isExpense) }
+            }
+
+            CategoryEvent.Save -> saveCategory()
+            CategoryEvent.Validate -> validate()
+        }
+    }
+
+    private fun validate() {
+        _state.update { it.copy(isNameEmpty = _state.value.name.isEmpty()) }
+        _state.update { it.copy(isGroupSelected = _state.value.selectedGroup != null) }
+
+        if (!_state.value.hasErrors()) {
+            onEvent(CategoryEvent.Save)
+        }
+    }
+
+    private fun saveCategory() {
+        viewModelScope.launch {
+            with(_state.value) {
+                selectedGroup?.id?.let { groupId ->
+                    categoryRepository.addCategory(
+                        name = name,
+                        groupId = groupId,
+                        iconPosition = iconItemPosition,
+                    )
+                    _state.update { it.copy(navigateBack = true) }
+                }
             }
         }
     }

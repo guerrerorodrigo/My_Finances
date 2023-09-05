@@ -20,13 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.rodrigoguerrero.myfinances.android.R
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
+import com.rodrigoguerrero.myfinances.ui.categories.CategoryGroupUi
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SelectCategoryGroupDropDownMenu(
-    selected: String,
-    items: List<String>,
-    onCategorySelected: (String) -> Unit,
+    isError: Boolean,
+    error: String,
+    selected: CategoryGroupUi?,
+    items: List<CategoryGroupUi>,
+    onCategorySelected: (CategoryGroupUi) -> Unit,
     onAddNewCategoryGroup: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -37,7 +40,7 @@ fun SelectCategoryGroupDropDownMenu(
         onExpandedChange = { isGroupMenuExpanded = !isGroupMenuExpanded }
     ) {
         AddCategoryTextField(
-            value = selected,
+            value = selected?.name.orEmpty(),
             onValueChange = {},
             label = stringResource(R.string.group),
             modifier = Modifier
@@ -49,6 +52,8 @@ fun SelectCategoryGroupDropDownMenu(
             },
             isEnabled = false,
             isReadOnly = true,
+            isError = isError,
+            error = error,
         )
         ExposedDropdownMenu(
             modifier = Modifier.exposedDropdownSize(),
@@ -57,7 +62,7 @@ fun SelectCategoryGroupDropDownMenu(
         ) {
             items.forEach { selectionOption ->
                 DropdownMenuItem(
-                    text = { Text(selectionOption) },
+                    text = { Text(selectionOption.name) },
                     onClick = {
                         onCategorySelected(selectionOption)
                         isGroupMenuExpanded = false

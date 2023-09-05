@@ -5,7 +5,7 @@ import database.CategoryEntity
 data class CategoryDto(
     val id: Long,
     val name: String,
-    val icon: String?,
+    val icon: Long?,
     val groupId: Long,
 )
 

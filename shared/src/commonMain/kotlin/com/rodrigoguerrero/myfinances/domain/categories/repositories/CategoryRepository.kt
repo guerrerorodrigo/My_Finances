@@ -10,4 +10,6 @@ interface CategoryRepository {
     fun getCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroup>>
+
+    suspend fun addCategory(name: String, groupId: Int, iconPosition: Int?)
 }

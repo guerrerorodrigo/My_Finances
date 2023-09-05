@@ -11,5 +11,6 @@ interface CategoriesDataSource {
     fun getAllCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroupDto>>
-    suspend fun insertCategoryGroup(name: String, transactionType: TransactionType)
+    suspend fun addCategoryGroup(name: String, transactionType: TransactionType)
+    suspend fun addCategory(name: String, groupId: Int, iconPosition: Int?)
 }
