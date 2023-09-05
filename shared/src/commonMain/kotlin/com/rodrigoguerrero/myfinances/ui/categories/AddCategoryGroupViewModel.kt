@@ -40,6 +40,16 @@ class AddCategoryGroupViewModel(
             CategoryGroupEvent.CategoryGroupSaved -> {
                 _state.update { it.copy(navigateBack = true) }
             }
+
+            CategoryGroupEvent.Validate -> validate()
+        }
+    }
+
+    private fun validate() {
+        _state.update { it.copy(isNameEmpty = _state.value.group.isEmpty()) }
+
+        if (!_state.value.hasErrors()) {
+            onEvent(CategoryGroupEvent.Save)
         }
     }
 

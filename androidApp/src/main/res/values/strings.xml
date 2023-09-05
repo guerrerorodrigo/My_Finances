@@ -16,4 +16,5 @@
     <string name="new_income_category">New Income Category</string>
     <string name="error_empty_category_name">Category name should have a value</string>
     <string name="error_empty_category_group">Category group should have a value</string>
+    <string name="error_empty_category_group_name">Category group name should have a value</string>
 </resources>

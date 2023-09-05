@@ -53,7 +53,7 @@ fun AddCategoryGroupScreen(
             CategoryTopBar(
                 title = stringResource(id = R.string.add_new_category_group),
                 onBack = onBack,
-                onSave = { viewModel.onEvent(CategoryGroupEvent.Save) },
+                onSave = { viewModel.onEvent(CategoryGroupEvent.Validate) },
             )
         }
     ) { paddingValues ->
@@ -69,6 +69,12 @@ fun AddCategoryGroupScreen(
                 onValueChange = { viewModel.onEvent(CategoryGroupEvent.GroupNameUpdated(it)) },
                 label = stringResource(R.string.category_group),
                 modifier = Modifier.fillMaxWidth(),
+                isError = state.isNameEmpty,
+                error = if (state.isNameEmpty) {
+                    stringResource(id = R.string.error_empty_category_group_name)
+                } else {
+                    ""
+                },
             )
             Row(
                 modifier = Modifier
