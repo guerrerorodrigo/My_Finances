@@ -17,4 +17,6 @@
     <string name="error_empty_category_name">Category name should have a value</string>
     <string name="error_empty_category_group">Category group should have a value</string>
     <string name="error_empty_category_group_name">Category group name should have a value</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select</string>
 </resources>

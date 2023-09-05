@@ -38,12 +38,21 @@ import com.rodrigoguerrero.myfinances.android.ui.common.components.TransactionTe
 import com.rodrigoguerrero.myfinances.android.ui.create.components.AddTransactionScreenTopAppBar
 import com.rodrigoguerrero.myfinances.android.ui.create.components.SaveTransactionFab
 import com.rodrigoguerrero.myfinances.android.ui.create.components.TransactionAmountTextField
+import com.rodrigoguerrero.myfinances.android.ui.create.components.TransactionDatePicker
+import com.rodrigoguerrero.myfinances.android.ui.create.components.TransactionTimePickerDialog
 import com.rodrigoguerrero.myfinances.android.ui.create.viewmodels.AndroidAddTransactionViewModel
 import com.rodrigoguerrero.myfinances.android.ui.create.viewmodels.TransactionCreationViewModel
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.ui.theme.Colors
 import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.AmountUpdated
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.NameUpdated
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.NotesUpdated
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.OnCategoryUpdated
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.SaveTransaction
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.ShowDatePicker
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.ToggleTransactionType
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -60,9 +69,20 @@ fun AddTransactionScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val sharedState by sharedViewModel.state.collectAsStateWithLifecycle()
 
+    if (state.showDatePicker) {
+        TransactionDatePicker(onEvent = { viewModel.onEvent(it) })
+    }
+
+    if (state.showTimePicker) {
+        TransactionTimePickerDialog(
+            onEvent = { viewModel.onEvent(it) },
+            minutes = state.minutes,
+            hour = state.hour,
+        )
+    }
     LaunchedEffect(key1 = sharedState.selectedCategory) {
         sharedState.selectedCategory?.let {
-            viewModel.onEvent(AddTransactionEvent.OnCategoryUpdated(it))
+            viewModel.onEvent(OnCategoryUpdated(it))
         }
     }
 
@@ -71,7 +91,9 @@ fun AddTransactionScreen(
     }
 
     LaunchedEffect(key1 = state.navigateBack) {
-        if (state.navigateBack) { onBack() }
+        if (state.navigateBack) {
+            onBack()
+        }
     }
 
     val backgroundColor by animateColorAsState(
@@ -88,7 +110,7 @@ fun AddTransactionScreen(
         topBar = { AddTransactionScreenTopAppBar(onBack = onBack) },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            SaveTransactionFab(onClick = { viewModel.onEvent(AddTransactionEvent.SaveTransaction) })
+            SaveTransactionFab(onClick = { viewModel.onEvent(SaveTransaction) })
         }
     ) { paddingValues ->
         Column(
@@ -99,7 +121,7 @@ fun AddTransactionScreen(
         ) {
             TransactionTextField(
                 text = state.name,
-                onValueChange = { viewModel.onEvent(AddTransactionEvent.NameUpdated(it)) },
+                onValueChange = { viewModel.onEvent(NameUpdated(it)) },
                 placeholder = stringResource(R.string.transaction_name),
                 leadingIcon = Icons.Outlined.Description,
                 modifier = Modifier.fillMaxWidth()
@@ -108,41 +130,14 @@ fun AddTransactionScreen(
             TransactionAmountTextField(
                 backgroundColor = backgroundColor,
                 state = state,
-                onAmountUpdated = { viewModel.onEvent(AddTransactionEvent.AmountUpdated(it)) },
-                toggleTransactionType = { viewModel.onEvent(AddTransactionEvent.ToggleTransactionType) }
+                onAmountUpdated = { viewModel.onEvent(AmountUpdated(it)) },
+                toggleTransactionType = { viewModel.onEvent(ToggleTransactionType) }
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(AppTheme.padding.m),
-            ) {
-                TransactionTextField(
-                    text = state.date,
-                    leadingIcon = Icons.Outlined.CalendarMonth,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable {
-//                            onEvent(AddTransactionEvent.ShowCalendar)
-                        },
-                    placeholder = "",
-                    onValueChange = { },
-                    isReadOnly = true,
-                    isEnabled = false,
-                )
-                TransactionTextField(
-                    text = state.time,
-                    leadingIcon = Icons.Outlined.AccessTime,
-                    modifier = Modifier
-                        .weight(1f)
-                        .clickable {
-//                            onEvent(AddTransactionEvent.ShowTimePicker)
-                        },
-                    placeholder = "",
-                    onValueChange = { },
-                    isReadOnly = true,
-                    isEnabled = false,
-                )
-            }
+            DateAndTimeRow(
+                date = state.date,
+                time = state.time,
+                onEvent = { viewModel.onEvent(it) }
+            )
             TransactionTextField(
                 text = state.category.name,
                 onValueChange = {},
@@ -166,12 +161,48 @@ fun AddTransactionScreen(
             )
             TransactionTextField(
                 text = state.notes,
-                onValueChange = { viewModel.onEvent(AddTransactionEvent.NotesUpdated(it)) },
+                onValueChange = { viewModel.onEvent(NotesUpdated(it)) },
                 leadingIcon = Icons.Outlined.StickyNote2,
                 placeholder = stringResource(R.string.notes),
                 modifier = Modifier.fillMaxWidth(),
                 maxLines = 5,
             )
         }
+    }
+}
+
+@Composable
+private fun DateAndTimeRow(
+    date: String,
+    time: String,
+    onEvent: (AddTransactionEvent) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(AppTheme.padding.m),
+    ) {
+        TransactionTextField(
+            text = date,
+            leadingIcon = Icons.Outlined.CalendarMonth,
+            modifier = Modifier
+                .weight(1f)
+                .clickable { onEvent(ShowDatePicker) },
+            placeholder = "",
+            onValueChange = { },
+            isReadOnly = true,
+            isEnabled = false,
+        )
+        TransactionTextField(
+            text = time,
+            leadingIcon = Icons.Outlined.AccessTime,
+            modifier = Modifier
+                .weight(1f)
+                .clickable { onEvent(AddTransactionEvent.ShowTimePicker) },
+            placeholder = "",
+            onValueChange = { },
+            isReadOnly = true,
+            isEnabled = false,
+        )
     }
 }

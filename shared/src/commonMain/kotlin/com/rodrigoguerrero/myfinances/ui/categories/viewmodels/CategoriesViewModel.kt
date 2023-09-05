@@ -35,6 +35,7 @@ class CategoriesViewModel(
                                 iconPosition = it.iconPosition,
                                 id = it.id.toInt(),
                                 group = it.group.name,
+                                groupId = it.group.id,
                             )
                         }
                     }

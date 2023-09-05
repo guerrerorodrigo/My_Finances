@@ -3,8 +3,11 @@ package com.rodrigoguerrero.myfinances.ui.transactioins.viewmodels
 import com.rodrigoguerrero.myfinances.common.flows.CommonStateFlow
 import com.rodrigoguerrero.myfinances.common.flows.toCommonStateFlow
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.domain.transactions.models.Transaction
 import com.rodrigoguerrero.myfinances.domain.transactions.repository.TransactionRepository
+import com.rodrigoguerrero.myfinances.ui.categories.models.toDomain
 import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionEvent.*
 import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class AddTransactionViewModel(
     private val repository: TransactionRepository,
@@ -30,23 +34,12 @@ class AddTransactionViewModel(
 
     fun onEvent(event: AddTransactionEvent) {
         when (event) {
-            is AddTransactionEvent.AmountUpdated -> {
-                _state.update { it.copy(amount = event.value) }
-            }
-
-            is AddTransactionEvent.NameUpdated -> {
-                _state.update { it.copy(name = event.value) }
-            }
-
-            AddTransactionEvent.NavigateBack -> {
-                _state.update { it.copy(navigateBack = true) }
-            }
-            is AddTransactionEvent.NotesUpdated -> {
-                _state.update { it.copy(notes = event.value) }
-            }
-
-            AddTransactionEvent.SaveTransaction -> TODO()
-            AddTransactionEvent.ToggleTransactionType -> {
+            is AmountUpdated -> _state.update { it.copy(amount = event.value) }
+            is NameUpdated -> _state.update { it.copy(name = event.value) }
+            NavigateBack -> _state.update { it.copy(navigateBack = true) }
+            is NotesUpdated -> _state.update { it.copy(notes = event.value) }
+            SaveTransaction -> saveTransaction()
+            ToggleTransactionType -> {
                 _state.update {
                     it.copy(
                         type = if (it.type == TransactionType.INCOME) {
@@ -57,9 +50,31 @@ class AddTransactionViewModel(
                     )
                 }
             }
+            is OnCategoryUpdated -> _state.update { it.copy(category = event.category) }
+            ShowDatePicker -> _state.update { it.copy(showDatePicker = true) }
+            HideDatePicker -> _state.update { it.copy(showDatePicker = false) }
+            is OnDateSelected -> _state.update { it.copy(dateMillis = event.date) }
+            HideTimePicker -> _state.update { it.copy(showTimePicker = false) }
+            is OnTimeSelected -> _state.update { it.copy(hour = event.hour, minutes = event.minute) }
+            ShowTimePicker -> _state.update { it.copy(showTimePicker = true) }
+        }
+    }
 
-            is AddTransactionEvent.OnCategoryUpdated -> {
-                _state.update { it.copy(category = event.category) }
+    private fun saveTransaction() {
+        viewModelScope.launch {
+            with(_state.value) {
+                repository.createTransaction(
+                    transaction = Transaction(
+                        id = 0,
+                        name = name,
+                        type = type,
+                        amount = amount.toDouble(),
+                        creationDate = date.toLong(),
+                        notes = notes,
+                        category = category.toDomain(),
+                    )
+                )
+                onEvent(event = NavigateBack)
             }
         }
     }

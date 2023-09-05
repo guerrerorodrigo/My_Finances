@@ -9,8 +9,3 @@ fun formatDate(currentTime: LocalDateTime): String {
             .replaceFirstChar { currentTime.month.name[0].uppercase() }
     } ${currentTime.year}"
 }
-
-fun formatTime(currentTime: LocalDateTime): String {
-    val time = currentTime.time.toString()
-    return time.substring(startIndex = 0, endIndex = time.lastIndexOf(":"))
-}

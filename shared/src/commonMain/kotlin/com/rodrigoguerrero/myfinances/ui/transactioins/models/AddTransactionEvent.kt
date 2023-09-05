@@ -10,4 +10,10 @@ sealed interface AddTransactionEvent {
     data object ToggleTransactionType : AddTransactionEvent
     data object SaveTransaction : AddTransactionEvent
     data class OnCategoryUpdated(val category: Category) : AddTransactionEvent
+    data object ShowDatePicker : AddTransactionEvent
+    data object HideDatePicker : AddTransactionEvent
+    data class OnDateSelected(val date: Long?) : AddTransactionEvent
+    data object ShowTimePicker : AddTransactionEvent
+    data object HideTimePicker : AddTransactionEvent
+    data class OnTimeSelected(val hour: Int, val minute: Int) : AddTransactionEvent
 }

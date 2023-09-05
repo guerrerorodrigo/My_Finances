@@ -22,14 +22,14 @@ fun NavGraphBuilder.createTransactionNavGraph(navController: NavHostController) 
         route = CreateTransaction.route,
         startDestination = AddTransaction.route,
     ) {
-        composable(route = AddTransaction.route) {
-            val backStackEntry = remember(navController.currentBackStackEntry) {
+        composable(route = AddTransaction.route) { navStack ->
+            val backStackEntry = remember(navStack) {
                 navController.getBackStackEntry(AddTransaction.route)
             }
             AddTransactionScreen(
                 onBack = {
                     navController.navigate(Main.route) {
-                        popUpTo(AddTransaction.route) {
+                        popUpTo(CreateTransaction.route) {
                             inclusive = true
                         }
                     }
