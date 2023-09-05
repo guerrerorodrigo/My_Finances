@@ -35,7 +35,7 @@ private const val NUMBER_OF_COLUMNS = 5
 fun SelectCategoryBottomSheet(
     selectCategoryUiState: SelectCategoryUiState,
     onSelected: (Category) -> Unit,
-    onAddNewCategory: () -> Unit,
+    onAddNewCategory: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
@@ -69,7 +69,7 @@ fun SelectCategoryBottomSheet(
                 color = AppTheme.color.primary,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onAddNewCategory() },
+                    .clickable { onAddNewCategory(true) }, // TODO: pass correct value
             )
         }
         item(span = { GridItemSpan(NUMBER_OF_COLUMNS) }) {

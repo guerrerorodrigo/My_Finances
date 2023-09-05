@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.ui.viewmodels
+package com.rodrigoguerrero.myfinances.ui.transactioins
 
 import com.rodrigoguerrero.myfinances.domain.transactions.repository.TransactionRepository
 import dev.icerock.moko.mvvm.viewmodel.ViewModel

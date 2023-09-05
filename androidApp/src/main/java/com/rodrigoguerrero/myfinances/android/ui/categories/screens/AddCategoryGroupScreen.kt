@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.android.ui.create.screens
+package com.rodrigoguerrero.myfinances.android.ui.categories.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

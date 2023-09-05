@@ -30,8 +30,7 @@ fun RoundedIcon(
         .size(dimensionResource(id = R.dimen.icon_container_size))
         .clip(CircleShape)
         .background(color = AppTheme.color.primary)
-
-    onSelected?.let { itemModifier.clickable { onSelected.invoke() } }
+        .clickable { onSelected?.invoke() }
     Box(
         modifier = itemModifier,
         contentAlignment = Alignment.Center,

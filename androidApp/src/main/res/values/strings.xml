@@ -12,4 +12,6 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="add_new_category">Add New Category</string>
+    <string name="new_expense_category">New Expense Category</string>
+    <string name="new_income_category">New Income Category</string>
 </resources>

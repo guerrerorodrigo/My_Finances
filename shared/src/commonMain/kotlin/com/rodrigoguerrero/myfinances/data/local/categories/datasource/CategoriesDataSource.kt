@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoriesDataSource {
 
     suspend fun getAllCategories(): Flow<List<CategoryDto>>
-    suspend fun getAllCategoryGroups(
+    fun getAllCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroupDto>>
     suspend fun insertCategoryGroup(name: String, transactionType: TransactionType)

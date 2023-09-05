@@ -30,7 +30,7 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
                 }
             }
 
-    override suspend fun getAllCategoryGroups(
+    override fun getAllCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroupDto>> =
         queries
@@ -47,7 +47,7 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
 
     override suspend fun insertCategoryGroup(name: String, transactionType: TransactionType) {
         queries.insertCategoryGroupEntity(
-            id = 0,
+            id = null,
             name = name,
             type = transactionType.ordinal.toLong(),
         )

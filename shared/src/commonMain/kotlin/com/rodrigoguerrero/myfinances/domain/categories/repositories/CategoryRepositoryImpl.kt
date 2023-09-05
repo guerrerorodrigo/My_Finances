@@ -15,7 +15,7 @@ internal class CategoryRepositoryImpl(
         dataSource.insertCategoryGroup(name, transactionType)
     }
 
-    override suspend fun getCategoryGroups(
+    override fun getCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroup>> =
         dataSource

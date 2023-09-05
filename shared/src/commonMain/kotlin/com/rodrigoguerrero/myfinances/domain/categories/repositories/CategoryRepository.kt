@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryRepository {
 
     suspend fun addCategoryGroup(name: String, transactionType: TransactionType)
-    suspend fun getCategoryGroups(
+    fun getCategoryGroups(
         transactionType: TransactionType,
     ): Flow<List<CategoryGroup>>
 }
