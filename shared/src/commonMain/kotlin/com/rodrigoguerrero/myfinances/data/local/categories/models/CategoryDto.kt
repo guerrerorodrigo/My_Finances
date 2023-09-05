@@ -7,6 +7,7 @@ data class CategoryDto(
     val name: String,
     val icon: Long?,
     val groupId: Long,
+    val groupName: String,
 )
 
 internal fun CategoryEntity.toCategoryDto() = CategoryDto(
@@ -14,4 +15,5 @@ internal fun CategoryEntity.toCategoryDto() = CategoryDto(
     name = name,
     icon = icon,
     groupId = groupId,
+    groupName = groupName,
 )

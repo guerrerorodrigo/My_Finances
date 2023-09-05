@@ -7,15 +7,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import com.rodrigoguerrero.myfinances.android.ui.create.models.AddTransactionEvent
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun AddTransactionScreenTopAppBar(onEvent: (AddTransactionEvent) -> Unit) {
+fun AddTransactionScreenTopAppBar(onBack: () -> Unit) {
     TopAppBar(
         title = { },
         navigationIcon = {
-            IconButton(onClick = { onEvent(AddTransactionEvent.NavigateBack) }) {
+            IconButton(onClick = onBack) {
                 Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = null)
             }
         }

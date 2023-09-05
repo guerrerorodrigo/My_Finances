@@ -19,15 +19,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import com.rodrigoguerrero.myfinances.android.R
-import com.rodrigoguerrero.myfinances.android.ui.create.models.AddTransactionUiState
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionType
-import com.rodrigoguerrero.myfinances.android.ui.create.models.AddTransactionEvent
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionUiState
 
 @Composable
 fun RowScope.TransactionTypeIcon(
     backgroundColor: Color,
-    onEvent: (AddTransactionEvent) -> Unit,
+    onToggleTransactionType: () -> Unit,
     state: AddTransactionUiState
 ) {
     Box(
@@ -35,7 +34,7 @@ fun RowScope.TransactionTypeIcon(
             .clip(CircleShape)
             .background(color = backgroundColor)
             .size(size = dimensionResource(id = R.dimen.add_transaction_type_icon_size))
-            .clickable { onEvent(AddTransactionEvent.ToggleTransactionType) },
+            .clickable { onToggleTransactionType() },
         contentAlignment = Alignment.Center,
     ) {
         this@TransactionTypeIcon.AnimatedVisibility(

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.rodrigoguerrero.myfinances.android.R
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
-import com.rodrigoguerrero.myfinances.ui.categories.CategoryGroupUi
+import com.rodrigoguerrero.myfinances.ui.categories.models.CategoryGroupUi
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

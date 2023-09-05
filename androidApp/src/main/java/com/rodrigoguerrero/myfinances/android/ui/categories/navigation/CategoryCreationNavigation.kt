@@ -13,10 +13,11 @@ import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCat
 import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.AddCategoryGroup
 import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.CategoryCreation
 import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.ChangeIcon
-import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinationsParams.IsExpense
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinationsParams.TransactionTypeParam
 import com.rodrigoguerrero.myfinances.android.ui.categories.screens.AddCategoryGroupScreen
 import com.rodrigoguerrero.myfinances.android.ui.categories.screens.AddNewCategoryScreen
 import com.rodrigoguerrero.myfinances.android.ui.create.navigation.CreateTransactionDestinations.CreateTransaction
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.createCategoryNavGraph(navController: NavHostController) {
@@ -28,23 +29,25 @@ fun NavGraphBuilder.createCategoryNavGraph(navController: NavHostController) {
             val backStackEntry = remember(navController.currentBackStackEntry) {
                 navController.getBackStackEntry(AddCategory.route)
             }
-            val isExpense = remember(navBackStack) {
-                navController
-                    .getBackStackEntry(CategoryCreation().route)
-                    .arguments
-                    ?.getString(IsExpense.name) == "true"
+            val transactionType = remember(navBackStack) {
+                TransactionType.from(
+                    navController
+                        .getBackStackEntry(CategoryCreation().route)
+                        .arguments
+                        ?.getString(TransactionTypeParam.name)?.toLong() ?: 0L
+                )
             }
             AddNewCategoryScreen(
                 onAddNewCategoryGroup = { navController.navigate(AddCategoryGroup.route) },
                 onChangeIcon = { navController.navigate(ChangeIcon.route) },
                 onBack = {
                     navController.navigate(CreateTransaction.route) {
-                        popUpTo(CategoryCreation(isExpense).route) {
+                        popUpTo(CategoryCreation(transactionType).route) {
                             inclusive = true
                         }
                     }
                 },
-                isExpense = isExpense,
+                transactionType = transactionType,
                 viewModelStoreOwner = backStackEntry,
             )
         }

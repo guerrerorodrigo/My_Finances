@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import com.rodrigoguerrero.myfinances.android.R
 import com.rodrigoguerrero.myfinances.android.ui.common.annotations.WidgetPreviews
 import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionItem
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionType
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import com.rodrigoguerrero.myfinances.android.ui.theme.MyApplicationTheme
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.ui.theme.Colors
 
 @Composable

@@ -24,15 +24,12 @@ import com.rodrigoguerrero.myfinances.android.ui.theme.MyApplicationTheme
 fun RoundedIcon(
     icon: ImageVector?,
     modifier: Modifier = Modifier,
-    onSelected: (() -> Unit)? = null,
 ) {
-    val itemModifier = modifier
-        .size(dimensionResource(id = R.dimen.icon_container_size))
-        .clip(CircleShape)
-        .background(color = AppTheme.color.primary)
-        .clickable { onSelected?.invoke() }
     Box(
-        modifier = itemModifier,
+        modifier = modifier
+            .size(dimensionResource(id = R.dimen.icon_container_size))
+            .clip(CircleShape)
+            .background(color = AppTheme.color.primary),
         contentAlignment = Alignment.Center,
     ) {
         icon?.let {
@@ -44,6 +41,15 @@ fun RoundedIcon(
             )
         }
     }
+}
+
+@Composable
+fun ClickableRoundedIcon(
+    onSelected: () -> Unit,
+    icon: ImageVector?,
+    modifier: Modifier = Modifier,
+) {
+    RoundedIcon(icon = icon, modifier = modifier.clickable { onSelected() })
 }
 
 @WidgetPreviews

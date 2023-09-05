@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.ui.categories
+package com.rodrigoguerrero.myfinances.ui.categories.models
 
 import com.rodrigoguerrero.myfinances.domain.categories.models.CategoryGroup
 

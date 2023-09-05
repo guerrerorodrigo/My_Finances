@@ -2,7 +2,8 @@ CREATE TABLE categoryEntity(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     icon INTEGER,
-    groupId INTEGER NOT NULL
+    groupId INTEGER NOT NULL,
+    groupName TEXT NOT NULL
 );
 
 CREATE TABLE categoryGroupEntity(
@@ -27,8 +28,9 @@ INTO categoryEntity(
     id,
     name,
     icon,
-    groupId
-) VALUES (?, ?, ?, ?);
+    groupId,
+    groupName
+) VALUES (?, ?, ?, ?, ?);
 
 insertCategoryGroupEntity:
 INSERT OR REPLACE

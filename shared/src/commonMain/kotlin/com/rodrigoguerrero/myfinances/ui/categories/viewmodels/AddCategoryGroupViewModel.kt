@@ -1,9 +1,11 @@
-package com.rodrigoguerrero.myfinances.ui.categories
+package com.rodrigoguerrero.myfinances.ui.categories.viewmodels
 
 import com.rodrigoguerrero.myfinances.common.flows.CommonStateFlow
 import com.rodrigoguerrero.myfinances.common.flows.toCommonStateFlow
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.domain.categories.repositories.CategoryRepository
+import com.rodrigoguerrero.myfinances.ui.categories.models.AddCategoryGroupUiState
+import com.rodrigoguerrero.myfinances.ui.categories.models.CategoryGroupEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

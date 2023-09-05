@@ -12,15 +12,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.rodrigoguerrero.myfinances.android.R
 import com.rodrigoguerrero.myfinances.android.ui.common.components.TransactionTextField
-import com.rodrigoguerrero.myfinances.android.ui.create.models.AddTransactionUiState
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionType
-import com.rodrigoguerrero.myfinances.android.ui.create.models.AddTransactionEvent
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.AddTransactionUiState
 
 @Composable
 fun TransactionAmountTextField(
     backgroundColor: Color,
-    onEvent: (AddTransactionEvent) -> Unit,
+    toggleTransactionType: () -> Unit,
+    onAmountUpdated: (String) -> Unit,
     state: AddTransactionUiState
 ) {
     Row(
@@ -28,10 +28,10 @@ fun TransactionAmountTextField(
         horizontalArrangement = Arrangement.spacedBy(AppTheme.padding.xs),
         modifier = Modifier.padding(start = AppTheme.padding.sm),
     ) {
-        TransactionTypeIcon(backgroundColor, onEvent, state)
+        TransactionTypeIcon(backgroundColor, toggleTransactionType, state)
         TransactionTextField(
             text = state.amount,
-            onValueChange = { onEvent(AddTransactionEvent.AmountUpdated(it)) },
+            onValueChange = { onAmountUpdated(it) },
             placeholder = stringResource(R.string.empty_amount),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             prefix = if (state.type == TransactionType.EXPENSE) {

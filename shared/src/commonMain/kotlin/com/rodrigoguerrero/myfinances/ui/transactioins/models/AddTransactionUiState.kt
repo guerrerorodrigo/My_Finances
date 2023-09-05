@@ -1,10 +1,8 @@
-package com.rodrigoguerrero.myfinances.android.ui.create.models
+package com.rodrigoguerrero.myfinances.ui.transactioins.models
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Stable
-import com.rodrigoguerrero.myfinances.android.ui.categories.models.Category
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionType
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.ui.categories.models.Category
 import com.rodrigoguerrero.myfinances.utils.formatDate
 import com.rodrigoguerrero.myfinances.utils.formatTime
 import kotlinx.datetime.Clock
@@ -21,8 +19,8 @@ data class AddTransactionUiState(
     val time: String = formatTime(
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     ),
-    val category: Category = Category(name = "Other", icon = Icons.Filled.Settings),
-    val categoryGroup: String = "Other",
+    val category: Category = Category(name = "Other", iconPosition = null, id = 1, group = "Other"),
     val notes: String = "",
     val type: TransactionType = TransactionType.EXPENSE,
+    val navigateBack: Boolean = false,
 )

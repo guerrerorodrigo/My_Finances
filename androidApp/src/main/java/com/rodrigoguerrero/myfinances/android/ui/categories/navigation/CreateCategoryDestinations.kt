@@ -1,13 +1,14 @@
 package com.rodrigoguerrero.myfinances.android.ui.categories.navigation
 
-import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinationsParams.IsExpense
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinationsParams.TransactionTypeParam
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 
 sealed class CreateCategoryDestinations(val route: String) {
-    data class CategoryCreation(val isExpense: Boolean? = null) : CreateCategoryDestinations(
-        route = if (isExpense != null) {
-            "category-creation?isExpense=$isExpense"
+    data class CategoryCreation(val transactionType: TransactionType? = null) : CreateCategoryDestinations(
+        route = if (transactionType != null) {
+            "category-creation?transactionType=${transactionType.ordinal}"
         } else {
-            "category-creation?isExpense={$IsExpense}"
+            "category-creation?transactionType={${TransactionTypeParam.name}}"
         }
     )
 
@@ -17,5 +18,5 @@ sealed class CreateCategoryDestinations(val route: String) {
 }
 
 sealed class CreateCategoryDestinationsParams(val name: String) {
-    data object IsExpense : CreateCategoryDestinationsParams("isExpense")
+    data object TransactionTypeParam : CreateCategoryDestinationsParams("transactionType")
 }

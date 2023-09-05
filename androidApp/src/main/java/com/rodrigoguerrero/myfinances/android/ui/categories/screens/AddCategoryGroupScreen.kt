@@ -26,7 +26,7 @@ import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.AndroidAd
 import com.rodrigoguerrero.myfinances.android.ui.common.annotations.PhonePreviews
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import com.rodrigoguerrero.myfinances.android.ui.theme.MyApplicationTheme
-import com.rodrigoguerrero.myfinances.ui.categories.CategoryGroupEvent
+import com.rodrigoguerrero.myfinances.ui.categories.models.CategoryGroupEvent
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)

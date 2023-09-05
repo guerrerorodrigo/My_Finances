@@ -1,15 +1,15 @@
 package com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels
 
 import com.rodrigoguerrero.myfinances.domain.categories.repositories.CategoryRepository
-import com.rodrigoguerrero.myfinances.ui.categories.viewmodels.AddCategoryGroupViewModel
-import com.rodrigoguerrero.myfinances.ui.categories.models.CategoryGroupEvent
+import com.rodrigoguerrero.myfinances.ui.categories.models.SelectCategoryEvent
+import com.rodrigoguerrero.myfinances.ui.categories.viewmodels.CategoriesViewModel
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 
-class AndroidAddCategoryGroupViewModel(
+class AndroidCategoriesViewModel(
     private val categoryRepository: CategoryRepository,
 ) : ViewModel() {
     private val viewModel by lazy {
-        AddCategoryGroupViewModel(
+        CategoriesViewModel(
             coroutineScope = viewModelScope,
             categoryRepository = categoryRepository,
         )
@@ -17,7 +17,7 @@ class AndroidAddCategoryGroupViewModel(
 
     val state = viewModel.state
 
-    fun onEvent(event: CategoryGroupEvent) {
+    fun onEvent(event: SelectCategoryEvent) {
         viewModel.onEvent(event)
     }
 }

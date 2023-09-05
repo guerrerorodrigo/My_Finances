@@ -21,9 +21,9 @@ import com.rodrigoguerrero.myfinances.android.ui.display.components.TransactionI
 import com.rodrigoguerrero.myfinances.android.ui.display.models.GroupDateItem
 import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionItem
 import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionListUiState
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionType
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import com.rodrigoguerrero.myfinances.android.ui.theme.MyApplicationTheme
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 
 @Composable
 fun TransactionsScreen(

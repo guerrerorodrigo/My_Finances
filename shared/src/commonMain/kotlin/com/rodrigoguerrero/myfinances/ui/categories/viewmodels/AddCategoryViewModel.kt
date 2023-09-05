@@ -1,9 +1,12 @@
-package com.rodrigoguerrero.myfinances.ui.categories
+package com.rodrigoguerrero.myfinances.ui.categories.viewmodels
 
 import com.rodrigoguerrero.myfinances.common.flows.CommonStateFlow
 import com.rodrigoguerrero.myfinances.common.flows.toCommonStateFlow
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.domain.categories.repositories.CategoryRepository
+import com.rodrigoguerrero.myfinances.ui.categories.models.AddCategoryUiState
+import com.rodrigoguerrero.myfinances.ui.categories.models.CreateCategoryEvent
+import com.rodrigoguerrero.myfinances.ui.categories.models.toUi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class AddCategoryViewModel(
     private val categoryRepository: CategoryRepository,
-    isExpense: Boolean,
+    transactionType: TransactionType,
     coroutineScope: CoroutineScope?,
 ) {
     private val viewModelScope = coroutineScope ?: CoroutineScope(Dispatchers.Main)
@@ -23,32 +26,40 @@ class AddCategoryViewModel(
     val state: CommonStateFlow<AddCategoryUiState> = combine(
         _state,
         categoryRepository.getCategoryGroups(
-            transactionType = if (isExpense) {
-                TransactionType.EXPENSE
-            } else {
-                TransactionType.INCOME
-            }
+            transactionType = transactionType,
         ),
     ) { state, groups ->
         state.copy(groups = groups.map { it.toUi() })
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = AddCategoryUiState(isExpense = isExpense),
+        initialValue = AddCategoryUiState(transactionType = transactionType),
     ).toCommonStateFlow()
 
-    fun onEvent(event: CategoryEvent) {
+    fun onEvent(event: CreateCategoryEvent) {
         when (event) {
-            is CategoryEvent.OnGroupSelected -> {
+            is CreateCategoryEvent.OnGroupSelected -> {
                 _state.update { it.copy(selectedGroup = event.group) }
             }
-            is CategoryEvent.OnNameUpdated -> _state.update { it.copy(name = event.value) }
-            CategoryEvent.OnToggleTransactionType -> {
-                _state.update { it.copy(isExpense = !_state.value.isExpense) }
+
+            is CreateCategoryEvent.OnNameUpdated -> _state.update { it.copy(name = event.value) }
+            CreateCategoryEvent.OnToggleTransactionType -> {
+                _state.update {
+                    it.copy(
+                        transactionType = if (_state.value.transactionType == TransactionType.EXPENSE) {
+                            TransactionType.INCOME
+                        } else {
+                            TransactionType.EXPENSE
+                        }
+                    )
+                }
             }
 
-            CategoryEvent.Save -> saveCategory()
-            CategoryEvent.Validate -> validate()
+            CreateCategoryEvent.Save -> saveCategory()
+            CreateCategoryEvent.Validate -> validate()
+            is CreateCategoryEvent.UpdateIconPosition -> {
+                _state.update { it.copy(iconItemPosition = event.position) }
+            }
         }
     }
 
@@ -57,7 +68,7 @@ class AddCategoryViewModel(
         _state.update { it.copy(isGroupSelected = _state.value.selectedGroup != null) }
 
         if (!_state.value.hasErrors()) {
-            onEvent(CategoryEvent.Save)
+            onEvent(CreateCategoryEvent.Save)
         }
     }
 
@@ -69,6 +80,7 @@ class AddCategoryViewModel(
                         name = name,
                         groupId = groupId,
                         iconPosition = iconItemPosition,
+                        groupName = selectedGroup.name,
                     )
                     _state.update { it.copy(navigateBack = true) }
                 }

@@ -17,7 +17,7 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
 
     private val queries = appDatabase.categoriesQueries
 
-    override suspend fun getAllCategories(): Flow<List<CategoryDto>> =
+    override fun getAllCategories(): Flow<List<CategoryDto>> =
         queries
             .getAllCategories()
             .asFlow()
@@ -48,6 +48,7 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
     override suspend fun addCategory(
         name: String,
         groupId: Int,
+        groupName: String,
         iconPosition: Int?,
     ) {
         queries.insertCategoryEntity(
@@ -55,6 +56,7 @@ internal class SqlDelightCategoriesDataSource(appDatabase: AppDatabase) : Catego
             name = name,
             groupId = groupId.toLong(),
             icon = iconPosition?.toLong(),
+            groupName = groupName,
         )
     }
 

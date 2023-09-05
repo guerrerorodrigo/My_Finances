@@ -1,4 +1,6 @@
-package com.rodrigoguerrero.myfinances.ui.categories
+package com.rodrigoguerrero.myfinances.ui.categories.models
+
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 
 
 data class AddCategoryUiState(
@@ -6,7 +8,7 @@ data class AddCategoryUiState(
     val iconItemPosition: Int? = null,
     val selectedGroup: CategoryGroupUi? = null,
     val groups: List<CategoryGroupUi> = emptyList(),
-    val isExpense: Boolean = true,
+    val transactionType: TransactionType = TransactionType.EXPENSE,
     val navigateBack: Boolean = false,
     val isNameEmpty: Boolean = false,
     val isGroupSelected: Boolean = true,

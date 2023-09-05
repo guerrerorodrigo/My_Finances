@@ -3,7 +3,7 @@ package com.rodrigoguerrero.myfinances.domain.transactions.models
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionDto
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.domain.categories.models.Category
-import com.rodrigoguerrero.myfinances.domain.categories.models.toCategory
+import com.rodrigoguerrero.myfinances.domain.categories.models.CategoryGroup
 
 data class Transaction(
     val id: Long,
@@ -21,7 +21,12 @@ internal fun TransactionDto.toDomain() = Transaction(
     type = type,
     amount = amount,
     creationDate = creationDate,
-    category = toCategory(),
+    category = Category(
+        id = categoryId,
+        name = category,
+        iconPosition = null,
+        group = CategoryGroup(id = categoryGroupId, name = categoryGroup),
+    ),
     notes = notes,
 )
 

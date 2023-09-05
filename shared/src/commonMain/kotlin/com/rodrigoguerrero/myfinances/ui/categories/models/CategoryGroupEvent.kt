@@ -1,4 +1,4 @@
-package com.rodrigoguerrero.myfinances.ui.categories
+package com.rodrigoguerrero.myfinances.ui.categories.models
 
 sealed interface CategoryGroupEvent {
     data class GroupNameUpdated(val name: String) : CategoryGroupEvent

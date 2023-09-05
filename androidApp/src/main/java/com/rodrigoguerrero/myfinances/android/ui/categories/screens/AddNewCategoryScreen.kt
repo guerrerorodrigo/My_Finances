@@ -27,7 +27,8 @@ import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.AndroidAd
 import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.CategoryCreationViewModel
 import com.rodrigoguerrero.myfinances.android.ui.common.components.RoundedIcon
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
-import com.rodrigoguerrero.myfinances.ui.categories.CategoryEvent
+import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
+import com.rodrigoguerrero.myfinances.ui.categories.models.CreateCategoryEvent
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.compose.navigation.koinNavViewModel
 import org.koin.core.parameter.parametersOf
@@ -35,13 +36,13 @@ import org.koin.core.parameter.parametersOf
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddNewCategoryScreen(
-    isExpense: Boolean,
+    transactionType: TransactionType,
     onAddNewCategoryGroup: () -> Unit,
     onChangeIcon: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AndroidAddCategoryViewModel = koinViewModel(
-        parameters = { parametersOf(isExpense) }
+        parameters = { parametersOf(transactionType) }
     ),
     viewModelStoreOwner: ViewModelStoreOwner,
     sharedViewModel: CategoryCreationViewModel = koinNavViewModel(viewModelStoreOwner = viewModelStoreOwner),
@@ -56,19 +57,23 @@ fun AddNewCategoryScreen(
         }
     }
 
+    LaunchedEffect(key1 = sharedState.iconPosition) {
+        viewModel.onEvent(CreateCategoryEvent.UpdateIconPosition(sharedState.iconPosition))
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
             CategoryTopBar(
                 title = stringResource(
-                    if (isExpense) {
+                    if (transactionType == TransactionType.EXPENSE) {
                         R.string.new_expense_category
                     } else {
                         R.string.new_income_category
                     }
                 ),
                 onBack = onBack,
-                onSave = { viewModel.onEvent(CategoryEvent.Validate) },
+                onSave = { viewModel.onEvent(CreateCategoryEvent.Validate) },
             )
         }
     ) { paddingValues ->
@@ -81,7 +86,7 @@ fun AddNewCategoryScreen(
         ) {
             AddCategoryTextField(
                 value = state.name,
-                onValueChange = { viewModel.onEvent(CategoryEvent.OnNameUpdated(it)) },
+                onValueChange = { viewModel.onEvent(CreateCategoryEvent.OnNameUpdated(it)) },
                 label = stringResource(R.string.category_name),
                 modifier = Modifier.fillMaxWidth(),
                 isError = state.isNameEmpty,
@@ -114,7 +119,7 @@ fun AddNewCategoryScreen(
             SelectCategoryGroupDropDownMenu(
                 items = state.groups,
                 selected = state.selectedGroup,
-                onCategorySelected = { viewModel.onEvent(CategoryEvent.OnGroupSelected(it)) },
+                onCategorySelected = { viewModel.onEvent(CreateCategoryEvent.OnGroupSelected(it)) },
                 onAddNewCategoryGroup = onAddNewCategoryGroup,
                 isError = !state.isGroupSelected,
                 error = if (!state.isGroupSelected) {

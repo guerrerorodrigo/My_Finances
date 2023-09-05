@@ -13,7 +13,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.ViewModelStoreOwner
 import com.rodrigoguerrero.myfinances.android.R
 import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.CategoryCreationViewModel
-import com.rodrigoguerrero.myfinances.android.ui.common.components.RoundedIcon
+import com.rodrigoguerrero.myfinances.android.ui.common.components.ClickableRoundedIcon
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import org.koin.androidx.compose.navigation.koinNavViewModel
 
@@ -33,7 +33,7 @@ fun SelectIconBottomSheet(
         verticalArrangement = Arrangement.spacedBy(AppTheme.padding.m),
     ) {
         itemsIndexed(icons) { index, icon ->
-            RoundedIcon(
+            ClickableRoundedIcon(
                 icon = icon,
                 onSelected = {
                     sharedViewModel.onIconPositionSelected(index)
