@@ -9,29 +9,37 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.bottomSheet
 import com.rodrigoguerrero.myfinances.android.ui.categories.components.SelectIconBottomSheet
 import com.rodrigoguerrero.myfinances.android.ui.categories.models.categoryIcons
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.AddCategory
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.AddCategoryGroup
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.CategoryCreation
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinations.ChangeIcon
+import com.rodrigoguerrero.myfinances.android.ui.categories.navigation.CreateCategoryDestinationsParams.IsExpense
 import com.rodrigoguerrero.myfinances.android.ui.categories.screens.AddCategoryGroupScreen
 import com.rodrigoguerrero.myfinances.android.ui.categories.screens.AddNewCategoryScreen
+import com.rodrigoguerrero.myfinances.android.ui.create.navigation.CreateTransactionDestinations.CreateTransaction
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 fun NavGraphBuilder.createCategoryNavGraph(navController: NavHostController) {
     navigation(
-        route = "category-creation?isExpense={isExpense}",
-        startDestination = "add-category",
+        route = CategoryCreation().route,
+        startDestination = AddCategory.route,
     ) {
-        composable(route = "add-category") { navBackStack ->
-            val backStackEntry = remember(navController.currentBackStackEntry) { navController.getBackStackEntry("add-category") }
+        composable(route = AddCategory.route) { navBackStack ->
+            val backStackEntry = remember(navController.currentBackStackEntry) {
+                navController.getBackStackEntry(AddCategory.route)
+            }
             val isExpense = remember(navBackStack) {
                 navController
-                    .getBackStackEntry("category-creation?isExpense={isExpense}")
+                    .getBackStackEntry(CategoryCreation().route)
                     .arguments
-                    ?.getString("isExpense") == "true"
+                    ?.getString(IsExpense.name) == "true"
             }
             AddNewCategoryScreen(
-                onAddNewCategoryGroup = { navController.navigate("add-new-category-group") },
-                onChangeIcon = { navController.navigate("change-icon") },
+                onAddNewCategoryGroup = { navController.navigate(AddCategoryGroup.route) },
+                onChangeIcon = { navController.navigate(ChangeIcon.route) },
                 onBack = {
-                    navController.navigate("main") {
-                        popUpTo("category-creation?isExpense=$isExpense") {
+                    navController.navigate(CreateTransaction.route) {
+                        popUpTo(CategoryCreation(isExpense).route) {
                             inclusive = true
                         }
                     }
@@ -41,14 +49,16 @@ fun NavGraphBuilder.createCategoryNavGraph(navController: NavHostController) {
                 viewModelStoreOwner = backStackEntry,
             )
         }
-        composable(route = "add-new-category-group") {
+        composable(route = AddCategoryGroup.route) {
             AddCategoryGroupScreen(
                 onBack = { navController.popBackStack() },
                 onComplete = { navController.popBackStack() },
             )
         }
-        bottomSheet(route = "change-icon") {
-            val backStackEntry = remember(navController.currentBackStackEntry) { navController.getBackStackEntry("add-category") }
+        bottomSheet(route = ChangeIcon.route) {
+            val backStackEntry = remember(navController.currentBackStackEntry) {
+                navController.getBackStackEntry(AddCategory.route)
+            }
             SelectIconBottomSheet(
                 icons = categoryIcons,
                 onIconSelected = { navController.popBackStack() },
