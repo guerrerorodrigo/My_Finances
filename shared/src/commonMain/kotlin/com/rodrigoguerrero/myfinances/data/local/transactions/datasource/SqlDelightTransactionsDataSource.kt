@@ -41,6 +41,8 @@ internal class SqlDelightTransactionsDataSource(database: AppDatabase) : Transac
             categoryId = transaction.categoryId,
             notes = transaction.notes,
             categoryGroup = transaction.categoryGroup,
+            date = transaction.date,
+            time = transaction.time,
         )
     }
 

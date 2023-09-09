@@ -2,6 +2,8 @@ CREATE TABLE transactionEntity (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     amount REAL NOT NULL,
     createdAt INTEGER NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
     type INTEGER NOT NULL,
     name TEXT NOT NULL,
     notes TEXT,
@@ -32,6 +34,8 @@ INTO transactionEntity(
     id,
     amount,
     createdAt,
+    date,
+    time,
     type,
     name,
     notes,
@@ -39,7 +43,7 @@ INTO transactionEntity(
     categoryId,
     categoryGroupId,
     categoryGroup
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 deleteTransaction:
 DELETE FROM transactionEntity

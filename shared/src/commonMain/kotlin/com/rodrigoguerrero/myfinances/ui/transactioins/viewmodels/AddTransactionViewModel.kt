@@ -50,12 +50,19 @@ class AddTransactionViewModel(
                     )
                 }
             }
+
             is OnCategoryUpdated -> _state.update { it.copy(category = event.category) }
             ShowDatePicker -> _state.update { it.copy(showDatePicker = true) }
             HideDatePicker -> _state.update { it.copy(showDatePicker = false) }
             is OnDateSelected -> _state.update { it.copy(dateMillis = event.date) }
             HideTimePicker -> _state.update { it.copy(showTimePicker = false) }
-            is OnTimeSelected -> _state.update { it.copy(hour = event.hour, minutes = event.minute) }
+            is OnTimeSelected -> _state.update {
+                it.copy(
+                    hour = event.hour,
+                    minutes = event.minute
+                )
+            }
+
             ShowTimePicker -> _state.update { it.copy(showTimePicker = true) }
         }
     }
@@ -68,8 +75,13 @@ class AddTransactionViewModel(
                         id = 0,
                         name = name,
                         type = type,
-                        amount = amount.toDouble(),
-                        creationDate = date.toLong(),
+                        amount = if (amount.isEmpty()) {
+                            0.0
+                        } else {
+                            amount.toDouble()
+                        },
+                        date = date,
+                        time = time,
                         notes = notes,
                         category = category.toDomain(),
                     )
