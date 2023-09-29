@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AirplanemodeActive
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,12 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import com.rodrigoguerrero.myfinances.android.R
+import com.rodrigoguerrero.myfinances.android.ui.categories.models.categoryIcons
 import com.rodrigoguerrero.myfinances.android.ui.common.annotations.WidgetPreviews
-import com.rodrigoguerrero.myfinances.android.ui.display.models.TransactionItem
 import com.rodrigoguerrero.myfinances.android.ui.theme.AppTheme
 import com.rodrigoguerrero.myfinances.android.ui.theme.MyApplicationTheme
 import com.rodrigoguerrero.myfinances.data.local.transactions.models.TransactionType
 import com.rodrigoguerrero.myfinances.ui.theme.Colors
+import com.rodrigoguerrero.myfinances.ui.transactioins.models.TransactionItem
 
 @Composable
 fun TransactionItem(
@@ -51,12 +50,14 @@ fun TransactionItem(
                 .background(color = color)
                 .size(size = dimensionResource(id = R.dimen.icon_size)),
         ) {
-            Icon(
-                imageVector = transactionItem.icon,
-                contentDescription = null,
-                modifier = Modifier.padding(all = AppTheme.padding.s),
-                tint = Color.White,
-            )
+            transactionItem.iconPosition?.let {
+                Icon(
+                    imageVector = categoryIcons[it],
+                    contentDescription = null,
+                    modifier = Modifier.padding(all = AppTheme.padding.s),
+                    tint = Color.White,
+                )
+            }
         }
         Column(
             modifier = Modifier.weight(1f),
@@ -89,7 +90,7 @@ private fun PreviewTransactionItem() {
                 name = "Sales Commission",
                 category = "Bonus",
                 amount = "€753.00",
-                icon = Icons.Filled.AirplanemodeActive,
+                iconPosition = 2,
             )
         )
     }

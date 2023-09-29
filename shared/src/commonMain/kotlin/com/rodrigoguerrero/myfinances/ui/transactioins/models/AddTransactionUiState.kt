@@ -26,7 +26,7 @@ data class AddTransactionUiState(
     val navigateBack: Boolean = false,
     val showDatePicker: Boolean = false,
     val showTimePicker: Boolean = false,
-    private val dateMillis: Long? = Clock.System.now().toEpochMilliseconds(),
+    val dateMillis: Long? = Clock.System.now().toEpochMilliseconds(),
     val hour: Int = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault()).hour,
     val minutes: Int = Clock.System.now()

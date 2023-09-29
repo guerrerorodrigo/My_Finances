@@ -5,7 +5,7 @@ import com.rodrigoguerrero.myfinances.data.local.transactions.models.Transaction
 import kotlinx.coroutines.flow.Flow
 
 interface TransactionsDataSource {
-    suspend fun getAllTransactions(): Flow<List<TransactionDto>>
+    fun getAllTransactions(): Flow<List<TransactionDto>>
     suspend fun insertTransaction(transaction: TransactionDto)
     suspend fun getTransactionsByType(transactionType: TransactionType): Flow<List<TransactionDto>>
     suspend fun getTransactionsById(id: Long): Flow<List<TransactionDto>>

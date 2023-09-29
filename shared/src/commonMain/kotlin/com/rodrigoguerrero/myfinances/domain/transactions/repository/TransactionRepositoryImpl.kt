@@ -15,7 +15,7 @@ internal class TransactionRepositoryImpl(
         dataSource.insertTransaction(transaction.toDto())
     }
 
-    override suspend fun getAllTransactions(): Flow<List<Transaction>> = dataSource
+    override fun getAllTransactions(): Flow<List<Transaction>> = dataSource
         .getAllTransactions().map { transactions ->
             transactions.map { transaction -> transaction.toDomain() }
         }

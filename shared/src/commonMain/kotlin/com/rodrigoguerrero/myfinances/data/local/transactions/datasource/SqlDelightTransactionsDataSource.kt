@@ -18,7 +18,7 @@ internal class SqlDelightTransactionsDataSource(database: AppDatabase) : Transac
 
     private val queries = database.financesQueries
 
-    override suspend fun getAllTransactions(): Flow<List<TransactionDto>> =
+    override fun getAllTransactions(): Flow<List<TransactionDto>> =
         queries.getAllTransactions().toDto()
 
     override suspend fun getTransactionsByType(
@@ -31,7 +31,7 @@ internal class SqlDelightTransactionsDataSource(database: AppDatabase) : Transac
 
     override suspend fun insertTransaction(transaction: TransactionDto) {
         queries.insertTransactionEntity(
-            id = transaction.id,
+            id = null,
             name = transaction.name,
             createdAt = Clock.System.now().toEpochMilliseconds(),
             amount = transaction.amount,
@@ -43,6 +43,7 @@ internal class SqlDelightTransactionsDataSource(database: AppDatabase) : Transac
             categoryGroup = transaction.categoryGroup,
             date = transaction.date,
             time = transaction.time,
+            categoryIconPosition = transaction.categoryIconPosition?.toLong(),
         )
     }
 

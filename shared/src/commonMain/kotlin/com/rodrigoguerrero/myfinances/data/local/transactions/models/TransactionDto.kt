@@ -7,13 +7,14 @@ data class TransactionDto(
     val name: String,
     val type: TransactionType,
     val amount: Double,
-    val date: String,
+    val date: Long,
     val time: String,
     val notes: String,
     val category: String,
     val categoryId: Long,
     val categoryGroupId: Long,
     val categoryGroup: String,
+    val categoryIconPosition: Int?,
 )
 
 internal fun TransactionEntity.toTransactionDto() = TransactionDto(
@@ -28,4 +29,5 @@ internal fun TransactionEntity.toTransactionDto() = TransactionDto(
     categoryGroupId = categoryGroupId,
     notes = notes.orEmpty(),
     categoryGroup = categoryGroup,
+    categoryIconPosition = categoryIconPosition?.toInt(),
 )

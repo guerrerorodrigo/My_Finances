@@ -80,7 +80,7 @@ class AddTransactionViewModel(
                         } else {
                             amount.toDouble()
                         },
-                        date = date,
+                        date = dateMillis ?: 0,
                         time = time,
                         notes = notes,
                         category = category.toDomain(),

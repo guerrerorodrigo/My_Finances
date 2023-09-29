@@ -1,8 +1,5 @@
-package com.rodrigoguerrero.myfinances.android.ui.display.models
+package com.rodrigoguerrero.myfinances.ui.transactioins.models
 
-import androidx.compose.runtime.Stable
-
-@Stable
 data class TransactionListUiState(
     val transactionsByDate: Map<GroupDateItem, List<TransactionItem>> = emptyMap(),
 )

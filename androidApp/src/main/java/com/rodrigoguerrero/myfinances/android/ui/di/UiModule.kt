@@ -6,6 +6,7 @@ import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.AndroidCa
 import com.rodrigoguerrero.myfinances.android.ui.categories.viewmodels.CategoryCreationViewModel
 import com.rodrigoguerrero.myfinances.android.ui.create.viewmodels.AndroidAddTransactionViewModel
 import com.rodrigoguerrero.myfinances.android.ui.create.viewmodels.TransactionCreationViewModel
+import com.rodrigoguerrero.myfinances.android.ui.display.viewmodels.AndroidTransactionsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,4 +17,5 @@ val uiModule = module {
     viewModel { TransactionCreationViewModel() }
     viewModel { AndroidCategoriesViewModel(categoryRepository = get()) }
     viewModel { AndroidAddTransactionViewModel(transactionRepository = get()) }
+    viewModel { AndroidTransactionsViewModel(transactionRepository = get()) }
 }

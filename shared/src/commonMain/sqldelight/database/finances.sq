@@ -2,7 +2,7 @@ CREATE TABLE transactionEntity (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     amount REAL NOT NULL,
     createdAt INTEGER NOT NULL,
-    date TEXT NOT NULL,
+    date INTEGER NOT NULL,
     time TEXT NOT NULL,
     type INTEGER NOT NULL,
     name TEXT NOT NULL,
@@ -10,7 +10,8 @@ CREATE TABLE transactionEntity (
     category TEXT NOT NULL,
     categoryId INTEGER NOT NULL,
     categoryGroupId INTEGER NOT NULL,
-    categoryGroup TEXT NOT NULL
+    categoryGroup TEXT NOT NULL,
+    categoryIconPosition INTEGER
 );
 
 getAllTransactions:
@@ -42,8 +43,9 @@ INTO transactionEntity(
     category,
     categoryId,
     categoryGroupId,
-    categoryGroup
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    categoryGroup,
+    categoryIconPosition
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 deleteTransaction:
 DELETE FROM transactionEntity
