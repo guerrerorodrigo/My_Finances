@@ -77,6 +77,8 @@ class AddTransactionViewModel(
                         type = type,
                         amount = if (amount.isEmpty()) {
                             0.0
+                        } else if (type == TransactionType.EXPENSE && amount.first() != '-') {
+                            "-${amount}".toDouble()
                         } else {
                             amount.toDouble()
                         },
