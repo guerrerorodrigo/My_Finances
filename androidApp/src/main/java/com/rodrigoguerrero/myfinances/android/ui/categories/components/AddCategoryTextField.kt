@@ -49,6 +49,7 @@ fun AddCategoryTextField(
         enabled = isEnabled,
         trailingIcon = trailingIcon,
         isError = isError,
+        minLines = 1,
         supportingText = { Text(text = error) },
     )
 }
